@@ -1,27 +1,25 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { StyleSheet, View, Text, Image } from 'react-native';
-import { fetchProductDetails } from '../services/api';
 import { RadioButtonGroup } from '../components/RadioButtonGroup';
 import { SecondaryButton } from '../components/SecondaryButton';
 import { Counter } from '../components/Counter';
 import { Loader } from '../components/Loader';
 import { ErrorMessage } from '../components/ErrorMessage';
 import { getPriceFormat } from '../utils/utils';
+import { fetchProductDetails } from '../redux/productsOps';
 import { addItem } from '../redux/cartSlice';
 import { COLORS, FONTS, ICONS } from '../utils/constants';
 import { images } from '../products';
 
 export function DetailsScreen({ route }) {
-    const [ details, setDetails ] = useState(null);
     const [ packageOptions, setPackageOptions ] = useState([]);
     const [ format, setFormat ] = useState( null );
     const [ packaging, setPackaging ] = useState(null);
     const [ quantity, setQuantity ] = useState(1);
     const [ total, setTotal ] = useState(0);
-    const [ loading, setLoading ] = useState(false);
-    const [ error, setError ] = useState('');
 
+    const { item, loading, error } = useSelector(state => state.details);
     const dispatch = useDispatch();
 
     const formatOptions = [
@@ -41,6 +39,7 @@ export function DetailsScreen({ route }) {
             }
         }));
         setPackaging(values[0]);
+        return packageOptions;
     }
 
     const increaseQuantity = () => {
@@ -65,48 +64,37 @@ export function DetailsScreen({ route }) {
         }));
     }
 
-    async function getProductDetails() {
-        try {
-            setError('');
-            setLoading(true);
-
-            const result = await fetchProductDetails(route.params.id);
-            setDetails(result);
+    useEffect(() => {
+        if (!item) {
+            dispatch(fetchProductDetails(route.params.id));
             initFormatOptions();
-            initPackageOptions(result.packaging);
-        } catch (err) {
-            setError(err.message);
-        } finally {
-            setLoading(false);
+        } else {
+            initPackageOptions(item.packaging);
         }
-    }
+    }, [dispatch, item]);
 
     useEffect(() => {
-        getProductDetails();
-    }, []);
-
-    useEffect(() => {
-        if (details?.price) {
-            setTotal(details.price / 1000 * packaging * quantity);
+        if (item?.price) {
+            setTotal(item.price / 1000 * packaging * quantity);
         }
     }, [packaging, quantity]);
 
     return (
         <>
-            {details &&
+            {item &&
                 <View style={styles.wrapper}>
                     <View style={styles.container}>
-                        <Image source={images[details.id]} style={styles.image} />
+                        <Image source={images[item.id]} style={styles.image} />
                         <View>
                             <Text style={styles.title}>
-                                {details.title}
+                                {item.title}
                             </Text>
                             <Text style={styles.price}>
-                                {`${getPriceFormat(details.price)} / kg`}
+                                {`${getPriceFormat(item.price)} / kg`}
                             </Text>
                         </View>
                         <Text style={styles.desc}>
-                            {details.desc}
+                            {item.desc}
                         </Text>
                         <RadioButtonGroup
                             options={formatOptions}
@@ -134,7 +122,7 @@ export function DetailsScreen({ route }) {
                         <SecondaryButton
                             label={getPriceFormat(total)}
                             icon={ICONS.CART_PLUS}
-                            onPress={() => addItemToCart(details)}
+                            onPress={() => addItemToCart(item)}
                             disableOnPress={true}
                         />
                     </View>
