@@ -40,3 +40,11 @@ export const LABELS = {
     PROFILE: 'Profile',
     DETAILS: 'Details'
 }
+
+export const FILTERS = {
+    ALL: 'all',
+    ARABICA: 'arabica',
+    ROBUSTA: 'robusta',
+    ESPRESSO: 'espresso',
+    MOCHA: 'mocha',
+}

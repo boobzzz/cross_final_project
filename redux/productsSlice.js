@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSelector, createSlice } from '@reduxjs/toolkit';
+import { selectFilterName } from './filtersSlice';
 import { fetchProducts } from './productsOps.js';
 
 const productsSlice = createSlice({
@@ -26,3 +27,14 @@ const productsSlice = createSlice({
 });
 
 export const productsReducer = productsSlice.reducer;
+
+const selectProducts = (state) => {
+    return state.products.items;
+};
+const selectFilter = (state) => selectFilterName(state);
+
+export const selectFilteredProducts = createSelector([selectProducts, selectFilter], (products, filter) => {
+    return products.filter(product => {
+        return product.tags.includes(filter);
+    });
+});

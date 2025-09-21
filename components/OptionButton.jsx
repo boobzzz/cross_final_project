@@ -49,13 +49,13 @@ const styles = StyleSheet.create({
     },
     text: {
         fontFamily: FONTS.REGULAR,
-        fontSize: 14,
+        fontSize: 12,
         color: COLORS.SECONDARY,
         textTransform: 'capitalize'
     },
     textSelected: {
         fontFamily: FONTS.REGULAR,
-        fontSize: 14,
+        fontSize: 12,
         color: COLORS.PRIMARY,
         textTransform: 'capitalize'
     }
