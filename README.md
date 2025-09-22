@@ -1,8 +1,4 @@
-1. Removed unused dependencies:
-![unused_dependencies.png](assets/unused_dependencies.png)
-2. Bundle sizes before and after optimization:
-![before.png](assets/before.png)
-![after.png](assets/after.png)
-3. Checked components render number with why-did-you-render hook:
-No performance approvements needed
+1. Додано фільтрацію товарів на основі тегів, для зручнішого пошуку необхідного
+2. Вся асинхронна логіка для роботи з API винесена в redux
 
+![Screenshot_20250922_022947_Expo Go.jpg](assets/Screenshot_20250922_022947_Expo%20Go.jpg)![Screenshot_20250922_023008_Expo Go.jpg](assets/Screenshot_20250922_023008_Expo%20Go.jpg)![Screenshot_20250922_023021_Expo Go.jpg](assets/Screenshot_20250922_023021_Expo%20Go.jpg)![Screenshot_20250922_030138_Expo Go.jpg](assets/Screenshot_20250922_030138_Expo%20Go.jpg)![Screenshot_20250922_030333_Expo Go.jpg](assets/Screenshot_20250922_030333_Expo%20Go.jpg)![Screenshot_20250922_030350_Expo Go.jpg](assets/Screenshot_20250922_030350_Expo%20Go.jpg)
