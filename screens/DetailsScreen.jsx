@@ -65,13 +65,15 @@ export function DetailsScreen({ route }) {
     }
 
     useEffect(() => {
-        if (!item) {
-            dispatch(fetchProductDetails(route.params.id));
+        dispatch(fetchProductDetails(route.params.id));
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (item) {
             initFormatOptions();
-        } else {
             initPackageOptions(item.packaging);
         }
-    }, [dispatch, item]);
+    }, [item]);
 
     useEffect(() => {
         if (item?.price) {

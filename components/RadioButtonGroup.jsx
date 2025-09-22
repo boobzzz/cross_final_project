@@ -1,9 +1,13 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import { View, StyleSheet } from 'react-native';
 import { OptionButton } from './OptionButton';
 
 export function RadioButtonGroup({ options, initialValue, setSelectedValue }) {
-    const [ selectedOption, setSelectedOption ] = useState(initialValue);
+    const [ selectedOption, setSelectedOption ] = useState(null);
+
+    useEffect(() => {
+        setSelectedOption(initialValue);
+    }, [initialValue]);
 
     return (
         <View style={styles.container}>
